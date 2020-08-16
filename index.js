@@ -1,17 +1,33 @@
-const express =  require('express')
+const express = require('express');
 const app = express();
-const port = 4000;
-app.use('/',require('./routes'))
-// setting up our view engine
-app.set ('view engine','ejs');
-app.set('views','./views');
+const port = 2000;
+
+// setting up our layouts
+const expressLayouts = require('express-ejs-layouts');
+const db = require('./config/mongoose');
+
+// using the static files 
+app.use(express.static('./assets'));
+// using the layout
+app.use(expressLayouts);
+// extract styles and scripts from sub pages to your layouts
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true);
 
 
 
-app.listen(port,function(err){
-    if(err){
-        console.log('Error:',err);
+// use express router
+app.use('/', require('./routes'));
 
+// set up the view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+
+app.listen(port, function(err){
+    if (err){
+        console.log(`Error in running the server: ${err}`);
     }
-    console.log("server is up and running on port:", port)
-})
+
+    console.log(`Server is running on port: ${port}`);
+});

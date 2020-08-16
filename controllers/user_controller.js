@@ -1,7 +1,9 @@
 
 module.exports.profile = function(req,res){
-    res.end('<h1>user Profile</h1>');
+    return res.render('user_profile',{
+        title: "User profile"
 
 
-}
+    });
+};
 // we have to access this controller function inside the router file
