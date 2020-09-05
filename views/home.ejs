@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>
+<%= title %>
+        </title>
+        <link rel="stylesheet" type="text/css" href="\css\layouts.css">
+      </head>
+        <body>
+
+          <h1> codial / <%= title %></h1>
+
+          <section id = "feeds-Post">
+            <form action = "post/create" id = "new-post-form" method="POST">
+              <textarea name = "content" cols="30" rows="3" placeholder="Type here.." ></textarea>
+              <input type="submit" value="Post">
+            </form>
+          </section>
+<div id = "post-list-container">
+  <ul>
+    <% for(post of posts){
+       %>
+       <li>
+         <p>
+         <%= post.content %>
+         
+         <small>
+          <%= post.user.name %>
+         </small>
+        </p>
+       </li>
+      <% } %>
+  </ul>
+
+
+
+</div>
+        </body>
+    </html>
