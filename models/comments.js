@@ -20,5 +20,5 @@ ref : 'Post'
     }
 
 );
-const Comments = mongoose.model('Post',postSchema)
-module.exports = Post;
+const Comment = mongoose.model('Comment',commentSchema)
+module.exports = Comment;

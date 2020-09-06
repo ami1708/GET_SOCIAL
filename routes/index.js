@@ -10,7 +10,7 @@ router.get('/',homeController.home);
 // whenever any other request comes in by user
 router.use('/users',require('./users'));
 router.use('/post',require('./post'));
-
+router.use('/comments',require('./comments'));
 
 // for route access from here
 // router.use('/routeName',require('./routeFilename'))
