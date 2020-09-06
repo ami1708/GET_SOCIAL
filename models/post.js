@@ -8,9 +8,19 @@ const postSchema =  new mongoose.Schema({
     user :{
         type: mongoose.Schema.Types.ObjectId,
         ref : 'User'
+    
+
+    },
+    //adding an array of comments id to make it faster
+    comments:[
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : 'comment'
     }
 
-    },{
+    ]
+},
+{
         //written to show  created and updated at
         timestamps : true
     }
