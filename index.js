@@ -13,7 +13,7 @@ const passport =require('passport')
 const passportLocal =require('./config/passport-local-strategy')
 const MongoStore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware')
-const { urlencoded } = require('express');
+//const { urlencoded } = require('express');//whats this?
 
 app.use(sassMiddleware({
     src: './assets/scss',
@@ -49,7 +49,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 //add a middleware which takes the session cookie and encrypts it
 app.use(session({
-    name : "codial",
+    name : "codeial",
     //encrypted
     //to do change the secret before deployment to production mode that is  sending to server
     secret: "something",
@@ -72,7 +72,7 @@ app.use(session({
 app.use(passport.initialize());
 
 app.use(passport.session());
-app.use(passport.setAuthenticatedUser)
+app.use(passport.setAuthenticatedUser);
 app.use(passport.isUserAuth)
 app.use('/', require('./routes'));
 
