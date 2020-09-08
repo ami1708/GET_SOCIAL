@@ -1,4 +1,4 @@
-const Comment = require('../models/comment');
+const Comment = require('../models/comments');
 const Post = require('../models/post');
 
 module.exports.create = function(req, res){
@@ -28,7 +28,28 @@ module.exports.create = function(req, res){
 
 
 
+module.exports.destroy = function(req, res){
+    //finding the comment which u want to delete
 
+    Comment.findById(req.params.id, function(err, comment){
+        //check authorize or not
+        if (comment.user == req.user.id){
+//comment schema also have a post id which needed to store somewhere so that from that id
+//we can know what post is that in which the comment is found and delete the id of comment
+//from that posts aS WELL
+            let postId = comment.post;
+
+            comment.remove();
+//PULL OUT THE COMMENT ID FROM COMMENT SCHEMA
+            Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}}, function(err, post){
+                return res.redirect('back');
+            })
+        }else{
+            return res.redirect('back');
+        }
+    });
+}
+   
 // const Comment = require('../models/comments');
 // const Post = require('../models/post');
 // module.exports.create = function(req,res){
