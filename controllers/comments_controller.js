@@ -1,25 +1,27 @@
 const Comment = require('../models/comments');
 const Post = require('../models/post');
 
-module.exports.create = function(req, res){
-    Post.findById(req.body.post, function(err, post){
+module.exports.create = async function(req, res){
+    try{
+   let post = await Post.findById(req.body.post);
 
         if (post){
-            Comment.create({
+           let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
                 user: req.user._id
-            }, function(err, comment){
-                // handle error
+            });
 
                 post.comments.push(comment);
                 post.save();
 
                 res.redirect('/');
-            });
+        }  
         }
-
-    });
+        catch(err){
+            console.log('error',err)
+            return;
+        }
 }
 
 
@@ -28,10 +30,13 @@ module.exports.create = function(req, res){
 
 
 
-module.exports.destroy = function(req, res){
+module.exports.destroy =  async function(req, res){
+    try{
+
+    
     //finding the comment which u want to delete
 
-    Comment.findById(req.params.id, function(err, comment){
+    let comment = await Comment.findById(req.params.id);
         //check authorize or not
         if (comment.user == req.user.id){
 //comment schema also have a post id which needed to store somewhere so that from that id
@@ -40,14 +45,18 @@ module.exports.destroy = function(req, res){
             let postId = comment.post;
 
             comment.remove();
-//PULL OUT THE COMMENT ID FROM COMMENT SCHEMA
-            Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}}, function(err, post){
+//PULL OUT THE COMMENT ID FROM COMMENT SCHEMA AND FIND IN POST THEN DELETE IT
+            let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}})
                 return res.redirect('back');
-            })
+            
         }else{
             return res.redirect('back');
         }
-    });
+    }
+    catch(err){
+        console.log('error',err)
+        return;
+    }
 }
    
 // const Comment = require('../models/comments');

@@ -1,34 +1,42 @@
 const Post = require('../models/post');
-module.exports.home = function(req, res){
-    //  console.log(req.cookies);
-    // res.cookie('user_id', 25);
-
-    // Post.find({}, function(err, posts){
-    //     return res.render('home', {
-    //         title: "Codial | Home",
-    //         posts:  posts
-    //     });
-    // });
-
-    // populate the user of each post 
-    //populate the comments of each post
-    Post.find({})
-    .populate('user')
-    .populate({
-        path: 'comments',
-        populate :{
-            path : 'user'
-        }
+const User = require('../models/user')
+module.exports.home = async function(req, res){ //tells the server that it contains some asynchronous functions
+//changed to async await
+    try{
+        // populate the user of each post 
+        //populate the comments of each post
+        let posts = await Post.find({}) //await
+        .populate('user')
+        .populate({
+            path: 'comments',
+            populate :{
+                path : 'user'
+            }
+            
+        })
         
-    })
-    .exec(function(err, posts){
-        return res.render('home', {
-            title: "Codial | Home",
-            posts:  posts
-        });
-    })
 
-}
+        let users = await User.find({}) //await
+                return res.render('home', {
+                    title: "Codial | Home",
+                    posts:  posts,
+                    all_users: users
+                });
+        
+        
 
+
+    }catch(err){ //any sort of error
+            console.log('error',err)
+            return;
+    }
+    }
 // module.exports.actionName = function(req, res){}
 // u have to show posts in views
+//first method to clean our code
+//using then
+// Post.find({}).populate('comments').then(function())
+
+// second method THIRD IS TO USE ASYNC AWAIT
+// let posts =  Post.find({}).populate('comments').exec();
+// post.then()
