@@ -71,6 +71,7 @@ module.exports.create = function(req, res){
 }
 // sign in and create a session for the user
 module.exports.createSession = function(req, res){
+    req.flash('success','logged in successfully')
     // TODO later
 
     return res.redirect('/')
@@ -78,6 +79,7 @@ module.exports.createSession = function(req, res){
 module.exports.destroySession = function (req,res){
     //passport js gives this request(built in)
     req.logout();
+    req.flash('success','logged out successfully')
     return res.redirect('/')
-}
+}//create your own middleware to transfer this req message to response one
     
