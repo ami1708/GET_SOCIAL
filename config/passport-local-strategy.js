@@ -6,28 +6,34 @@ const User = require('../models/user')
 //we need to tell the passport to use the local strategy
 //authentication using the passport
 passport.use(new localStrategy({
+    
     //here email is a property in schema me thi jo
         usernameField: 'email',
+     //to set up a req for the middleware so that it could o ne pulled out the flash ,msg
+     //store it into locals  and 
+        passReqToCallback: true
         
 
 
 },
 //callback function  in local stack
 //email and passport are the values passed below
-function(email,password,done){
+//this function is called after the user is logged in
+function(req,email,password,done){
+   
 //find the user and establish the identity
 //done is the callback function reporting the passport.js
 // The purpose of a verify callback is to find the user that possesses a set of credentials.
 //here first email is the property from db and second one is the value which is passed
 User.findOne({email:email},function(err,user){
     if(err){
-        console.log('error in finding the user --> Passport')
+        req.flash('error',err)
 //done takes 2 arguments 1 is err and the second is something else but now we will use the first one
         return done(err);
     }
 
     if(!user|| user.password!=password){
-        return console.log('invalid user name/password')
+        req.flash('error','Invalid Username/Password')
 
         // err is null and the authentication is false
         return done(null,false)

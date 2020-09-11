@@ -2,61 +2,55 @@ const Comment = require('../models/comments');
 const Post = require('../models/post');
 
 module.exports.create = async function(req, res){
+
     try{
-   let post = await Post.findById(req.body.post);
+        let post = await Post.findById(req.body.post);
 
         if (post){
-           let comment = await Comment.create({
+            let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
                 user: req.user._id
             });
 
-                post.comments.push(comment);
-                post.save();
+            post.comments.push(comment);
+            post.save();
+            req.flash('success', 'Comment published!');
 
-                res.redirect('/');
-        }  
+            res.redirect('/');
         }
-        catch(err){
-            console.log('error',err)
-            return;
-        }
+    }catch(err){
+        req.flash('error', err);
+        return;
+    }
+    
 }
 
 
+module.exports.destroy = async function(req, res){
 
-
-
-
-
-module.exports.destroy =  async function(req, res){
     try{
+        let comment = await Comment.findById(req.params.id);
 
-    
-    //finding the comment which u want to delete
-
-    let comment = await Comment.findById(req.params.id);
-        //check authorize or not
         if (comment.user == req.user.id){
-//comment schema also have a post id which needed to store somewhere so that from that id
-//we can know what post is that in which the comment is found and delete the id of comment
-//from that posts aS WELL
+
             let postId = comment.post;
 
             comment.remove();
-//PULL OUT THE COMMENT ID FROM COMMENT SCHEMA AND FIND IN POST THEN DELETE IT
-            let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}})
-                return res.redirect('back');
-            
+
+            let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
+            req.flash('success', 'Comment deleted!');
+
+            return res.redirect('back');
         }else{
+            req.flash('error', 'Unauthorized');
             return res.redirect('back');
         }
-    }
-    catch(err){
-        console.log('error',err)
+    }catch(err){
+        req.flash('error', err);
         return;
     }
+    
 }
    
 // const Comment = require('../models/comments');
