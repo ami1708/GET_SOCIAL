@@ -1,12 +1,27 @@
 const Post = require('../models/post');
 const Comment = require('../models/comments');
+const { removeListener } = require('../models/post');
 
 module.exports.create =  async function(req, res){
+    //check if the request is in the form of ajax which is http XML request I.E XHR
     try{
-    await Post.create({
+    let post = await Post.create({
         content: req.body.content,//content from the user in post in string format
         user: req.user._id //passing a user haven't created if user is login  or not
     });
+
+if(req.xhr){
+    return res.status(200).json({
+        data: {
+            //we get the data fro above variable post
+            post: post
+        },
+        message : "POst created!"
+    })
+}
+
+
+
 
     req.flash('success','POst created')
     return res.redirect('back');
