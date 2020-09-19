@@ -63,4 +63,22 @@ let newPostDom =  function(post){
     
 </li>`)
 }
+let deletePost = function(deleteLink){
+    $(deleteLink).click(function(e){
+
+        e.preventDefault();
+
+        $.ajax({
+            type: 'get',
+            url : $(deleteLink).prop('href')
+            success : function(data){
+
+            },error :  function(error)
+
+
+
+        });
+    })
+}
+
 }
