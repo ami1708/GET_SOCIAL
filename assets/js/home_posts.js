@@ -35,7 +35,7 @@ let newPostDom = function (post) {
     <p>
       
         <small>
-            <a class = "delete-post-button" href="/posts/destroy/${post.id}">X</a>
+            <a class = "delete-post-button" href="/posts/destroy/${post._id}">X</a>
         </small>
         <% } %>
         ${post.content}
@@ -74,7 +74,7 @@ let deletePost = function (deleteLink) {
       type: "get",
       url: $(deleteLink).prop("href"),
       success: function (data) {
-        $(`#post-$(data.data.post_id}`).remove();
+        $(`#post-$(data.data.post._id}`).remove();
       },
       error: function (error) {
         console.log(error.responseText);
