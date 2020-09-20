@@ -1,38 +1,34 @@
-const Post = require('../models/post');
-const User = require('../models/user')
-module.exports.home = async function(req, res){ //tells the server that it contains some asynchronous functions
-//changed to async await
-    try{
-        // populate the user of each post 
-        //populate the comments of each post
-       
-        let posts = await Post.find({}) //await
-        .sort('-createdAt')
-        .populate('user')
-        .populate({
-            path: 'comments',
-            populate :{
-                path : 'user'
-            }
-            
-        })
-        
+const Post = require("../models/post");
+const User = require("../models/user");
+module.exports.home = async function (req, res) {
+  //tells the server that it contains some asynchronous functions
+  //changed to async await
+  try {
+    // populate the user of each post
+    //populate the comments of each post
 
-        let users = await User.find({}) //await
-                return res.render('home', {
-                    title: "Codial | Home",
-                    posts:  posts,
-                    all_users: users
-                });
-        
-        
+    let posts = await Post.find({}) //await
+      .sort("-createdAt")
+      .populate("user")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+        },
+      });
 
-
-    }catch(err){ //any sort of error
-            console.log('error',err)
-            return;
-    }
-    }
+    let users = await User.find({}); //await
+    return res.render("home", {
+      title: "Codial | Home",
+      posts: posts,
+      all_users: users,
+    });
+  } catch (err) {
+    //any sort of error
+    console.log("error", err);
+    return;
+  }
+};
 // module.exports.actionName = function(req, res){}
 // u have to show posts in views
 //first method to clean our code
