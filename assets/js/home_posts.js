@@ -1,5 +1,7 @@
-{//method to submit form data of new post using ajax
+//method to submit form data of new post using ajax
 let createPost = function(){
+
+    //grab the form from id in home.ejs
     let newPostForm = $('#new-post-form')
 //we don't want it to submit naturally  e is the event which we prevent default from
     newPostForm.submit(function(e){
@@ -14,6 +16,7 @@ let createPost = function(){
                 //access the data
                 let newPost = newPostDom(data.data.post)
                 $('#posts-list-container>ul').prepend(newPost)
+                deletePost($(' .delete-post-button',newPost))
                 console.log(data)
                 //append it to the list
 
@@ -63,6 +66,7 @@ let newPostDom =  function(post){
     
 </li>`)
 }
+//method to delete the post in dom
 let deletePost = function(deleteLink){
     $(deleteLink).click(function(e){
 
@@ -70,15 +74,14 @@ let deletePost = function(deleteLink){
 
         $.ajax({
             type: 'get',
-            url : $(deleteLink).prop('href')
+            url : $(deleteLink).prop('href'),
             success : function(data){
 
             },error :  function(error)
 
 
 
-        });
+        {}});
     })
 }
 
-}
