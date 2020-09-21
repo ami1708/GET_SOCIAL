@@ -47,6 +47,16 @@ module.exports.destroy = async function (req, res) {
       let post = Post.findByIdAndUpdate(postId, {
         $pull: { comments: req.params.id },
       });
+
+      if (req.xhr) {
+        return res.status(200).json({
+          data: {
+            comment_id: req.params.id,
+          },
+          message: "comment deleted successfully",
+        });
+      }
+
       req.flash("success", "Comment deleted!");
 
       return res.redirect("back");
