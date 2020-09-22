@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    //field that will store the path odf the  file
+    // db only stores the path of the file
     avatar: {
       type: String,
     },
@@ -47,6 +49,7 @@ var storage = multer.diskStorage({
 userSchema.statics.uploadedAvatar = multer({ storage: storage }).single(
   "avatar"
 );
+//we made the avatar part publicly available by defining the static
 userSchema.statics.avatarPath = AVATAR_PATH;
 
 var upload = multer({ storage: storage });

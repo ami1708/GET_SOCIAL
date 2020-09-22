@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const fs = require('fs');
+const  path = require('path')
 module.exports.profile = function (req, res) {
   User.findById(req.params.id, function (err, user) {
     return res.render("user_profile", {
@@ -11,56 +13,58 @@ module.exports.profile = function (req, res) {
 };
 // render the sign up page
 
-module.exports.update =  async function (req, res) {
+module.exports.update = async function (req, res) {
   //user which are signed in can update only no one can fiddle with the inspect button
-//   if (req.user.id == req.params.id) {
-//     User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
-//       return res.redirect("back");
-//     });
-//   } else {
-//     return res.status(401).send("Unauthorized");
-//   }
-// };
-if (req.user.id == req.params.id) {
+  //   if (req.user.id == req.params.id) {
+  //     User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
+  //       return res.redirect("back");
+  //     });
+  //   } else {
+  //     return res.status(401).send("Unauthorized");
+  //   }
+  // };
+  if (req.user.id == req.params.id) {
+    try {
+      //find the user
+      let user = await User.findById(req.params.id);
+      //we are not able to get the data from the form of user_profile.ejs  cause it is multi parser and
+      //it needed to
+      User.uploadedAvatar(req, res, function (err) {
+        if (err) {
+          console.log(" **** multer error", err);
+        }
+        // console.log(req.file)
+        user.name = req.body.name;
+        user.email = req.body.email;
+
+        if (req.file) {
+//if user already have the avatar then del it
+if(user.avatar){
+  fs.unlinkSync(path.join(__dirname, '..',user.avatar))
+}
 
 
 
-  try{
-    //find the user
-    let user =  await User.findById(req.params.id)
-//we are not able to get the data from the form of user_profile.ejs  cause it is multi parser and 
-//it needed to
-User.uploadedAvatar(req,res,function(err){
-  if(err){
-    console.log(' **** multer error',err)
+
+
+
+
+
+          //saving the path of the uploaded file into the avatar field in the user
+          user.avatar = User.avatarPath + "/" + req.file.filename;
+        }
+        user.save();
+        return res.redirect("back");
+      });
+    } catch (err) {
+      req.flash("error", err);
+      return res.redirect("back");
+    }
+  } else {
+    req.flash("error", "Unauthorized");
+    return res.status(401).send("Unauthorized");
   }
-  // console.log(req.file)
-  user.name = req.body.name
-  user.email = req.body.email;
-
-if(req.file){
-  user.avatar = User.avatarPath + '/' +req.file.filename
-
-
-  }
-  user.save()
-  return  res.redirect('back')
-});
-
-}catch(err){
-
-  req.flash('error',err)
-  return res.redirect('back')
-
-
-}
-}
-
-else{
-  req.flash('error','Unauthorized');
-  return res.status(401).send("Unauthorized");
-}
-}
+};
 module.exports.signUp = function (req, res) {
   if (req.isAuthenticated()) {
     return res.redirect("/users/profile");
