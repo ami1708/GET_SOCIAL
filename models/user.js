@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+//from documentation
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -38,16 +39,15 @@ var storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + Date.now());
   },
 });
-//static functions 
+//static functions
 //they are called when we have to call over a similar function  in a particular class
-//ex : class planets 
+//ex : class planets
 //we have to find the population of all the planets so we will call a static function
 // in a particular planet
-userSchema.statics.uploadedAvatar = multer({storage: storage}).single('avatar');
-
-
-
-
+userSchema.statics.uploadedAvatar = multer({ storage: storage }).single(
+  "avatar"
+);
+userSchema.statics.avatarPath = AVATAR_PATH;
 
 var upload = multer({ storage: storage });
 const user = mongoose.model("User", userSchema);
