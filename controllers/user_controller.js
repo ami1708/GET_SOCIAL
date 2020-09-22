@@ -53,14 +53,14 @@ if(req.file){
   return res.redirect('back')
 
 
-
+}
 }
 
-// else{
-//   req.flash('error','Unauthorized');
-//   return res.status(401).send("Unauthorized");
-// }
-
+else{
+  req.flash('error','Unauthorized');
+  return res.status(401).send("Unauthorized");
+}
+}
 module.exports.signUp = function (req, res) {
   if (req.isAuthenticated()) {
     return res.redirect("/users/profile");
