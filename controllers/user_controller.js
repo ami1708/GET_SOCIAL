@@ -29,7 +29,7 @@ if (req.user.id == req.params.id) {
     //find the user
     let user =  await User.findById(req.params.id)
 //we are not able to get the data from the form of user_profile.ejs  cause it is multi parser and 
-//it needed to 
+//it needed to
 User.uploadedAvatar(req,res,function(err){
   if(err){
     console.log(' **** multer error',err)
@@ -37,23 +37,30 @@ User.uploadedAvatar(req,res,function(err){
   // console.log(req.file)
   user.name = req.body.name
   user.email = req.body.email;
-})
-if(req.file)
+
+if(req.file){
+  user.avatar = User.avatarPath + '/' +req.file.filename
 
 
   }
-catch(err){
+  user.save()
+  return  res.redirect('back')
+});
+
+}catch(err){
 
   req.flash('error',err)
   return res.redirect('back')
 
+
+
 }
-}
-else{
-  req.flash('error','Unauthorized');
-  return res.status(401).send("Unauthorized");
-}
-}
+
+// else{
+//   req.flash('error','Unauthorized');
+//   return res.status(401).send("Unauthorized");
+// }
+
 module.exports.signUp = function (req, res) {
   if (req.isAuthenticated()) {
     return res.redirect("/users/profile");
