@@ -50,6 +50,7 @@ if(user.avatar){
 
 
 
+
           //saving the path of the uploaded file into the avatar field in the user
           user.avatar = User.avatarPath + "/" + req.file.filename;
         }
