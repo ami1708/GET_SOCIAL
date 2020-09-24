@@ -6,9 +6,8 @@
 // const User = require('../models/user')
 // //a key should be there to encrypt any text and decrypt back
 
-
 // let opts = {
-//     //header is having a list of key 
+//     //header is having a list of key
 
 //     //the bearer have the jwt token
 //     jwtFromRequest : ExtractJWT.fromAuthHeaderAsBearerToken,
@@ -33,7 +32,6 @@
 //         }
 //     });
 
-
 // }))
 // module.exports = passport
 const passport = require("passport");
@@ -44,7 +42,7 @@ const User = require("../models/user");
 
 let opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken,
-  secretOrKey: "codeial",
+  secretOrKey: "codial",
 };
 
 passport.use(
