@@ -17,7 +17,8 @@ module.exports.createSession = async function (req, res) {
       data: {
         //user to json  here it got converted
         //The secret key used in password-jwt-strategy.js is 'codial', _____ will set the token and send it to the user.
-        token: jwt.sign(user.toJSON(), "codial", { expiresIn: "10000" }),
+      //10s 
+       token: jwt.sign(user.toJSON(), "codial", { expiresIn: "10000" }),
       },
     });
   } catch (err) {

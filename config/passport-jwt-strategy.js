@@ -12,7 +12,7 @@ const User = require("../models/user");
 let opts = {
   //header is having a list of key we are extracting
   //method creates a new extractor that looks for the JWT in the authorization header with the scheme 'bearer
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken,
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   //decrypted iusing codial
   //The secret key used in password-jwt-strategy.js is 'codial', _____ will set the token and send it to the user.
   secretOrKey: "codial",
