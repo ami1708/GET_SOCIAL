@@ -31,4 +31,19 @@ router.post(
 ); //this function is called if it is done (authentication)
 
 router.get("/sign-out", userController.destroySession);
+//1. ROUTE
+//callback url from auth to the client side or the one which makes a request
+//scope contains the information which we want to fetch
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+//2. ROUTE
+//the route for google taking data from the database
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/users/sign-in" }),
+  usersController.createSession
+);
+
 module.exports = router;
