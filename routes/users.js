@@ -43,7 +43,7 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/users/sign-in" }),
-  usersController.createSession
+  userController.createSession
 );
 
 module.exports = router;
