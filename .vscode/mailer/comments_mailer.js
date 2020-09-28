@@ -7,10 +7,17 @@ exports.newComment = (comment) => {
 
   nodeMailer.transporter.sendMail({
       from : 'amisha17200@gmail.com',
-//when we are sending mail to user who has commented
+//if i make a comment on someones post give a mail to me
       to: comment.user.email,
 // post.user.comment.email
       subject: 'new comment published',
       html : '<h1> Yup now your comment is published!</h1>'
-  },err);
+  },(err,info) => {
+        if(err){
+              console.log('Error in sending the mail',err);
+              return
+        }
+        console.log('Message sent',info)
+        return
+  });
 };
