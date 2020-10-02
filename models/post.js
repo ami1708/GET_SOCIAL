@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 //creating a schema for user data in mongoose
 const postSchema = new mongoose.Schema(
   {
@@ -15,10 +16,16 @@ const postSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment",
-      },
+      }
     ],
-  },
-  {
+  likes: [
+    {
+       type: mongoose.Schema.Types.ObjectId,
+       ref : 'Like'
+    }
+  ]
+},
+{
     //written to show  created and updated at
     timestamps: true,
   }
