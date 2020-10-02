@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const Comment = require("../models/comments");
 const { removeListener } = require("../models/post");
+const Like = require("../models/like");
 
 module.exports.create = async function (req, res) {
   //check if the request is in the form of ajax which is http XML request I.E XHR
@@ -35,6 +36,10 @@ module.exports.destroy = async function (req, res) {
     //check authorisation
     ///compare and convert it to string and .id means  mongoose convert object id to string
     if (post.user == req.user.id) {
+      // CHANGE :: delete the associated likes for the post and all its comments' likes too
+      await Like.deleteMany({ likeable: post, onModel: "Post" });
+      await Like.deleteMany({ _id: { $in: post.comments } });
+
       post.remove();
       //deleting the comments
       await Comment.deleteMany({ post: req.params.id });
