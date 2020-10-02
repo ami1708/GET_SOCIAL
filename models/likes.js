@@ -14,6 +14,7 @@ const LikeSchema = new mongoose.Schema({
   onModel: {
     type: String,
     required: true,
+    //on;y these two models contains likes to make sure
     enum: ["Post", "Comment"],
   }
 },{
