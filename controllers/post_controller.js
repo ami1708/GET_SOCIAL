@@ -1,7 +1,7 @@
 const Post = require("../models/post");
 const Comment = require("../models/comments");
 const { removeListener } = require("../models/post");
-const Like = require("../models/like");
+const Like = require("../models/likes");
 
 module.exports.create = async function (req, res) {
   //check if the request is in the form of ajax which is http XML request I.E XHR
