@@ -21,7 +21,6 @@ class ToggleLike{
                 console.log(likesCount);
                 if (data.data.deleted == true){
                     likesCount -= 1;
-                    
                 }else{
                     likesCount += 1;
                 }
@@ -32,7 +31,7 @@ class ToggleLike{
 
             })
             .fail(function(errData) {
-                console.log('error in completing the request');
+                console.log('error in completing the request');//ye error ok
             });
             
 

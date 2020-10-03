@@ -11,16 +11,15 @@ module.exports.toggleLike = async function (req, res) {
     let Likeable;
     //so that when we receives the json data back we can inc and dec the count
     //acc to that if deleted = false then count = +1 if true count = -1
-    let deleted = False;
+    let deleted = false;
 
-    if ((req.query.type = "Post")) {
+    if (req.query.type == "Post") {
       //if it is a post
-      likeable = await Post.findById(res.query.id).populate("Likes");
+      likeable = await Post.findById(req.query.id).populate("likes");
     } else {
       //if it is a comment
-      likeable = await Comment.findById(req.query.id).populate("Likes");
+      likeable = await Comment.findById(req.query.id).populate("likes");
     }
-
     //check if a like already exists
     //ONE USER can like once
     let existingLike = await Like.findOne({
@@ -60,3 +59,4 @@ module.exports.toggleLike = async function (req, res) {
     });
   }
 };
+//try kro ab error kha thi?.. routes m space thi .. khaa?
