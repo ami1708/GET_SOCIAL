@@ -1,15 +1,13 @@
 const express = require("express");
+const env = require('./config/environment')
 const app = express();
 const cookieParser = require("cookie-parser");
 const port = 2000;
-
 // setting up our layouts
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose");
-
 //used for session cookie
 const session = require("express-session");
-
 const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
 
@@ -22,17 +20,16 @@ const flash = require("connect-flash");
 
 const customMiddleware = require("./config/middleware");
 //setup the server to be used with socket.io
-const chatServer = require('http').Server(app);
-const chatSockets = require('./config/chat_socket').chatSockets(chatServer)
+const chatServer = require("http").Server(app);
+const chatSockets = require("./config/chat_socket").chatSockets(chatServer);
 chatServer.listen(5000);
-console.log('chat server is listening on port 5000')
+console.log("chat server is listening on port 5000");
 //
-
-
+const path = require('path');
 app.use(
   sassMiddleware({
-    src: "./assets/scss",
-    dest: "./assets/css",
+    src:path.join(__dirname,env.asset_path,'scss'),
+    dest: path.join(__dirname,env.asset_path,'css'),
     //do i want to display some errors the file which cant be compiled
     debug: true,
     outputStyle: "extended",
@@ -49,7 +46,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(cookieParser());
 
 // using the static files
-app.use(express.static("./assets"));
+app.use(express.static(env.asset_path));
 // using the layout
 app.use(expressLayouts);
 // extract styles and scripts from sub pages to your layouts
