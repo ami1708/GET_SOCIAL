@@ -7,8 +7,9 @@ const JWTStrategy = require("passport-jwt").Strategy;
 // //extract JWT from head we require a module
 const ExtractJWT = require("passport-jwt").ExtractJwt;
 
-const User = require("../models/user");
 
+const User = require("../models/user");
+const env = require('./environment')
 let opts = {
   //header is having a list of key we are extracting
   //method creates a new extractor that looks for the JWT in the authorization header with the scheme 'bearer
