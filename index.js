@@ -64,7 +64,7 @@ app.use(
     name: "codial",
     //encrypted
     //to do change the secret before deployment to production mode that is  sending to server
-    secret: "something",
+    secret: "env.session_cookie_key",
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 100,

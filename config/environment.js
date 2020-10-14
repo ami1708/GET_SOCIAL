@@ -1,7 +1,9 @@
 const development = {
-    name : 'development',
-    asset_path : './assets'
-}
+  name: "development",
+  asset_path: "./assets",
+  session_cookie_key: 'something',
+  db:
+};
 
 
 const production = {
