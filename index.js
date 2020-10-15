@@ -3,7 +3,7 @@ const env = require('./config/environment')
 const app = express();
 const cookieParser = require("cookie-parser");
 const port = 2000;
-// setting up our layouts
+// setting up our layouts in
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose");
 //used for session cookie

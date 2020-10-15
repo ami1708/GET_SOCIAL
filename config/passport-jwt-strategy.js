@@ -1,4 +1,4 @@
-//we are just fetching out the id of the user from the payload chaecking if user is there
+//we are just fetching out the id of the user from the payload checking if user is there
 // //or not
 // //tell passport to use jwt
 // //done is a callback function
@@ -14,7 +14,7 @@ let opts = {
   //header is having a list of key we are extracting
   //method creates a new extractor that looks for the JWT in the authorization header with the scheme 'bearer
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  //decrypted iusing codial
+  //decrypted using codial
   //The secret key used in password-jwt-strategy.js is 'codial', _____ will set the token and send it to the user.
   secretOrKey: "codial",
 };
