@@ -1,6 +1,6 @@
 const development = {
   name: "development",
-  asset_path: "./assets",
+  asset_path: process.env.port,
   session_cookie_key: "something",
   db: "codial-development",
   smtp: {
