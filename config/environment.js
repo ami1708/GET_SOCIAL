@@ -5,14 +5,14 @@ const path = require("path");
 const logDirectory = path.join(__dirname, "../production_logs");
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
-const accessLogStream = rfs("access.log", {
+const accessLogStream = rfs.createStream("access.log", {
   interval: "1d",
   path: logDirectory,
 });
 
 const development = {
   name: "development",
-  asset_path: process.CODIAL_ASSET_PATH,
+  asset_path: process.env.CODIAL_ASSET_PATH,
   session_cookie_key: "JaOIfDuIYCtaHV04KQSg0D2F8DXCkx4w",
   db: "codial_production",
   smtp: {
@@ -38,7 +38,7 @@ const development = {
 
 const production = {
   name: "production",
-  asset_path: process.CODIAL_ASSET_PATH,
+  asset_path: process.env.CODIAL_ASSET_PATH,
   session_cookie_key: "JaOIfDuIYCtaHV04KQSg0D2F8DXCkx4w",
   db: "codial_production",
   smtp: {
