@@ -11,6 +11,7 @@ const accessLogStream = rfs.createStream("access.log", {
   path: logDirectory,
 });
 
+
 const development = {
   name: "development",
   asset_path: process.env.CODIAL_ASSET_PATH,
